@@ -1,0 +1,42 @@
+---
+title: "Operation Pointblank: Plotly Example"
+author: "Kim"
+date: "10/24/2018"
+output: slidy_presentation
+---
+
+```{r setup, include=FALSE}
+knitr::opts_chunk$set(echo = FALSE)
+library(plotly)
+library(tidyverse)
+source("/Users/kimberlyhale/Documents/Side Projects/THOR/THOR/THOR_WW2_Pointblank.R")
+```
+
+## Operation Pointblank
+
+- Following graphic displays the ordnance dropped in support of Operation Pointblank.
+- [Operation Pointblank](https://en.wikipedia.org/wiki/Pointblank_directive) was an Allied operation in World War II
+- Data is from the Defense Data Service and hosted on [data.world](https://data.world/datamil/world-war-ii-thor-data)
+
+```{r plotlyEx, echo = FALSE, warning=FALSE}
+# geo styling
+g <- list(
+  scope = 'europe',
+  showland = TRUE,
+  landcolor = toRGB("gray95"),
+  subunitcolor = toRGB("gray85"),
+  countrycolor = toRGB("gray85"),
+  countrywidth = 0.5,
+  subunitwidth = 0.5
+)
+
+p <- plot_geo(thor.pointblank, lat = ~lat, lon = ~lng) %>%
+ add_markers(color = ~COUNTRY_FLYING_MISSION, text = ~TGT_INDUSTRY, hoverinfo = "text") %>%
+  layout(
+    title = 'Operation Pointblank Ordnance<br />(Hover for target type)', geo = g
+  )
+
+p
+```
+
+
